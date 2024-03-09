@@ -4,7 +4,9 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { AlertController } from '@ionic/angular';
 import { CarritoService } from 'src/app/carrito.service';
 import { Geolocation } from '@capacitor/geolocation';
-import { NativeGeocoder, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
+import { environment } from 'src/environments/environment';
+import { NativeGeocoder} from '@awesome-cordova-plugins/native-geocoder/ngx';
+import { GoogleMap} from '@capacitor/google-maps';
 import * as L from 'leaflet';
 const apiKey = 'AIzaSyDjwvcUH0nmv9bAWJARmCboGSic42kbhbg';
 
@@ -27,10 +29,7 @@ export class Tab4Page implements OnInit {
   metodoPago: string = '';
   total: number = 0;
 
-  options: NativeGeocoderOptions = {
-    useLocale: true,
-    maxResults: 5
-  }
+
 
   constructor(private alertController: AlertController, private carritoService: CarritoService, private nativegeocoder: NativeGeocoder) { }
 
@@ -56,48 +55,52 @@ export class Tab4Page implements OnInit {
       this.calcularTotal();
     });
 
-    this.createMap();
+    //  this.createMap();
   }
 
-  createMap() {
-    this.map = L.map('map').setView([33.6, -117.9], 8);
+  //  async createMap() {
+  //    const location =  await Geolocation.getCurrentPosition();
+  //      this.coordenadas[0] = location.coords.latitude;
+  //      this.coordenadas[1] = location.coords.longitude;
+  //    this.map = L.map('map').setView([this.coordenadas[0], this.coordenadas[1] ], 8);
+  
+  //    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  //      attribution: '© OpenStreetMap contributors',
+  //    }).addTo(this.map);
+  
+  //    this.map.on('click', (e: L.LeafletMouseEvent) => this.handleMapClick(e));
+  //  }
+  
+  //  handleMapClick(event: L.LeafletMouseEvent) {
+  //    const latLng = event.latlng;
+  
+  //    if (!latLng) {
+  //      console.log('Coordenadas no definidas.');
+  //      return;
+  //    }
+  
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-    }).addTo(this.map);
+  //    this.coordenadas[0] = latLng.lat;
+  //    this.coordenadas[1] = latLng.lng;
 
-    this.map.on('click', (e) => this.handleMapClick(e));
-  }
+  //    const geocodingUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${this.coordenadas[0]}&lon=${this.coordenadas[1]}&zoom=18&addressdetails=1`;
 
-  handleMapClick(event) {
-    const latLng = event.latlng;
+  //   fetch(geocodingUrl)
+  //      .then((response) => response.json())
+  //      .then((data) => {
+  //        if (data && data.display_name) {
+  //          this.ubicacion = data.display_name;
+  //          this.direccion = this.ubicacion;
 
-    if (!latLng) {
-      console.log('Coordenadas no definidas.');
-      return;
-    }
-
-    this.coordenadas[0] = latLng.lat;
-    this.coordenadas[1] = latLng.lng;
-
-    const geocodingUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${this.coordenadas[0]}&lon=${this.coordenadas[1]}&zoom=18&addressdetails=1`;
-
-    fetch(geocodingUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && data.display_name) {
-          this.ubicacion = data.display_name;
-          this.direccion = this.ubicacion;
-
-          this.map.panTo(new L.LatLng(this.coordenadas[0], this.coordenadas[1]));
-        } else {
-          console.log('No se pudo obtener la dirección.');
-        }
-      })
-      .catch((error) => {
-        console.error('Error al obtener la ubicación:', error);
-      });
-  }
+  //          this.map.panTo(new L.LatLng(this.coordenadas[0], this.coordenadas[1]));
+  //        } else {
+  //          console.log('No se pudo obtener la dirección.');
+  //        }
+  //      })
+  //      .catch((error) => {
+  //        console.error('Error al obtener la ubicación:', error);
+  //      });
+  //  }
 
   async obtenerUbicacion() {
     try {

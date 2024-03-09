@@ -6,7 +6,6 @@ import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { DataSharingService } from '../services/data-sharing.service';
 import { ToastController } from '@ionic/angular';
 
-
 register();
 
 @Component({
@@ -75,7 +74,7 @@ export class InicioPage implements OnInit {
         await toast.present();
   
         this.dataSharingService.setProductId(idProducto);
-        this.router.navigate(['/tabs/detalles'], { queryParams: { producto: idProducto } });
+        this.router.navigate(['/detalles'], { queryParams: { producto: idProducto } });
       } 
     } catch (error) {
       console.error('Error al obtener detalles del producto', error);
