@@ -1,0 +1,20 @@
+capacitor-google-map{
+    height: 50vh;
+    margin: 20px;
+    border: 1px solid black;
+}
+.map-container {
+    position: relative;
+    height: 300px; /* Ajusta la altura según tus necesidades */
+    overflow: hidden;
+    z-index: 0; /* Coloca el contenedor del mapa debajo de otros elementos */
+  }
+
+  #map {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Coloca el mapa detrás de otros elementos */
+  }
